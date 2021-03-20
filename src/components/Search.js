@@ -14,7 +14,7 @@ import {
 import "./../assets/styles/index.css";
 import { center } from "../constants";
 
-export default function Search() {
+export default function Search({panTo}) {
   const {
     ready,
     value,
@@ -30,7 +30,17 @@ export default function Search() {
   return (
     <Combobox
       className={"search"}
-      onSelect={(address) => {
+      onSelect={async (address) => {
+        setValue(address, false)
+        clearSuggestions()
+        try {
+          const results = await getGeocode({address: address})
+          const { lat, lng } = await getLatLng(results[0]);
+          panTo({lat, lng})
+        } catch (e) {
+          console.log('error', e)
+        }
+
         console.log(address);
       }}
     >
@@ -49,5 +59,5 @@ export default function Search() {
           ))}
       </ComboboxPopover>
     </Combobox>
-  );
+  )
 }

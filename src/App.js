@@ -47,9 +47,13 @@ function App() {
         mapRef.current = map
     }, [])
 
+    const panTo = useCallback(({lat, lng}) => {
+        mapRef.current.panTo({lat, lng});
+        mapRef.current.setZoom(14)
+    },[])
+
     const [markers, setMarkers] = useState([])
     const [selected, setSelected] = useState(null)
-
     if (loadError) return "Error loading maps"
     if (!isLoaded) return "Loading maps "
 
@@ -63,7 +67,7 @@ function App() {
           </span>
         </h1>
 
-        <Search />
+        <Search panTo={panTo}/>
 
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
