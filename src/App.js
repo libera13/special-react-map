@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
     GoogleMap,
     useLoadScript,
@@ -19,11 +19,12 @@ import {
 import {formatRelative} from "date-fns";
 
 import "@reach/combobox/styles.css";
-// import mapStyles from "./mapStyles";
+import mapStyles from "./styles/mapStyles";
 import logo from './logo.svg';
 import './App.css';
 
 const libraries = ['places']
+
 function App() {
 
     const mapContainerStyle = {
@@ -36,12 +37,18 @@ function App() {
         lng: 6.147120
     }
 
-
+    const options = {
+        styles: mapStyles,
+        disableDefaultUI: true,
+        zoomControl: true,
+    }
 
     const {isLoaded, loadError} = useLoadScript({
         googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
         libraries
     })
+
+    const [markers, setMarkers] = useState([])
 
     if (loadError) return "Error loading maps"
     if (!isLoaded) return "Loading maps "
@@ -49,14 +56,25 @@ function App() {
 
     return (
         <section>
+            <h1 className={'title'}>Thunders <span role="img" aria-label="fireworks">🎆</span></h1>
             <GoogleMap
                 mapContainerStyle={mapContainerStyle}
                 zoom={8}
-                center={center}
+                z center={center}
+                options={options}
+                onClick={(event) => {
+                    setMarkers(current => [
+                        ...current, {
+                            lat: event.latLng.lat(),
+                            lng: event.latLng.lng(),
+                            time: new Date()
+                        }
+                    ])
+                }}
             >
 
             </GoogleMap>
-            hej
+            <pre>{JSON.stringify(markers, null, 2)}</pre>
         </section>
     )
 }
