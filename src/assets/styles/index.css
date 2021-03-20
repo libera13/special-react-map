@@ -36,3 +36,17 @@ code {
   font-size: 1.5rem;
   width: 100%;
 }
+
+.locate {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  z-index: 10;
+}
+.locate img {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}

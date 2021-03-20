@@ -14,7 +14,7 @@ import {
 import "./../assets/styles/index.css";
 import { center } from "../constants";
 
-export default function Search({panTo}) {
+export default function Search({ panTo }) {
   const {
     ready,
     value,
@@ -29,19 +29,17 @@ export default function Search({panTo}) {
   });
   return (
     <Combobox
-      className={"search"}
+      className="search"
       onSelect={async (address) => {
-        setValue(address, false)
-        clearSuggestions()
+        setValue(address, false);
+        clearSuggestions();
         try {
-          const results = await getGeocode({address: address})
+          const results = await getGeocode({ address: address });
           const { lat, lng } = await getLatLng(results[0]);
-          panTo({lat, lng})
+          panTo({ lat, lng });
         } catch (e) {
-          console.log('error', e)
+          console.log("error", e);
         }
-
-        console.log(address);
       }}
     >
       <ComboboxInput
@@ -50,14 +48,16 @@ export default function Search({panTo}) {
           setValue(event.target.value);
         }}
         disabled={!ready}
-        placeholder={"Enter an adress"}
+        placeholder={"Enter an address"}
       />
       <ComboboxPopover>
-        {status === "OK" &&
-          data.map(({ id, description }) => (
-            <ComboboxOption key={id} value={description} />
-          ))}
+        <ComboboxList>
+          {status === "OK" &&
+            data.map(({ id, description }) => (
+              <ComboboxOption key={id} value={description} />
+            ))}
+        </ComboboxList>
       </ComboboxPopover>
     </Combobox>
-  )
+  );
 }
