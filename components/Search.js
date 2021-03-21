@@ -11,7 +11,7 @@ import {
   ComboboxList,
   ComboboxOption,
 } from "@reach/combobox";
-import { center } from "../pages/constants";
+import { center } from "./constants";
 
 export default function Search({ panTo }) {
   const {
