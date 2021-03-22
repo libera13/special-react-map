@@ -149,7 +149,7 @@ function Map() {
           >
             <div>
               <h2>Lighten report</h2>
-              <p>Spotted {formatRelative(selected.time, new Date())}</p>
+              <p>Spotted {formatRelative(new Date(selected.time), new Date())}</p>
             </div>
           </InfoWindow>
         ) : null}
